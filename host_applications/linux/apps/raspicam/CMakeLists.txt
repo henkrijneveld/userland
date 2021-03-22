@@ -59,11 +59,17 @@ add_executable(raspistill ${COMMON_SOURCES} RaspiStill.c  ${EGL_SOURCES} ${GL_SC
 add_executable(raspiyuv   ${COMMON_SOURCES} RaspiStillYUV.c)
 add_executable(raspivid   ${COMMON_SOURCES} RaspiVid.c)
 add_executable(raspividyuv  ${COMMON_SOURCES} RaspiVidYUV.c)
+# add_executable(raspimjpeg RaspiMJPEG.c RaspiMCam.c RaspiMCmds.c RaspiMUtils.c RaspiMMotion.c)																							 
+add_executable(raspigemcam RaspiGemcam.c RaspiGCam.c RaspiGCmds.c RaspiGUtils.c RaspiGMotion.c)																							 
+
 
 set (MMAL_LIBS mmal_core mmal_util mmal_vc_client)
 target_link_libraries(raspistill ${MMAL_LIBS} vcos bcm_host ${EGL_LIBS} m dl)
 target_link_libraries(raspiyuv   ${MMAL_LIBS} vcos bcm_host m)
 target_link_libraries(raspivid   ${MMAL_LIBS} vcos bcm_host m)
 target_link_libraries(raspividyuv   ${MMAL_LIBS} vcos bcm_host m)
+# target_link_libraries(raspimjpeg ${MMAL_LIBS} vcos bcm_host)
+target_link_libraries(raspigemcam ${MMAL_LIBS} vcos bcm_host)
 
-install(TARGETS raspistill raspiyuv raspivid raspividyuv RUNTIME DESTINATION bin)
+# install(TARGETS raspistill raspiyuv raspivid raspimjpeg raspividyuv RUNTIME DESTINATION bin)
+install(TARGETS raspistill raspiyuv raspivid raspigemcam raspividyuv RUNTIME DESTINATION bin)
