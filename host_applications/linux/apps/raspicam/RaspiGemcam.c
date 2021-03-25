@@ -258,13 +258,37 @@ void monitor() {
       }
    }
 }
+
+void adaptPath(int key, char *basepath)
+{
+   char *oldvalue;
+   char newvalue[256];
+
+   oldvalue = cfg_stru[key];
+
+   if (!oldvalue || strlen(oldvalue) == 0 || *oldvalue != '/') {
+      strcpy(newvalue, basepath);
+      if (oldvalue) { // Oh, the joy of adapting undocumented old code!
+         strcat(newvalue, oldvalue);
+      }
+      if (newvalue[strlen(newvalue) - 1] == '/') {
+         newvalue[strlen(newvalue) - 1] = '\0';
+      }
+      addValue(key, newvalue, 0);
+   }
+}
+
+
 int main (int argc, char* argv[]) {
-   monitor();
+//   monitor();
    int i, length;
    int watchdog = 0, watchdog_errors = 0;
    int onesec_check = 0;
    time_t last_pv_time = 0, pv_time;
    char fdName[FIFO_MAX][128];
+   char cmdbasepath[256];
+
+   strcpy(cmdbasepath, "");
 
    bcm_host_init();
    //
@@ -278,6 +302,13 @@ int main (int argc, char* argv[]) {
       else if(strcmp(argv[i], "-md") == 0) {
          cfg_val[c_motion_detection] = 1;
       }
+      else if (strcmp(argv[i], "-bp") == 0) {
+         i++;
+         if (i < argc) {
+            // basepath will be prepended to path definitions in config files 
+            strcpy(cmdbasepath, argv[i]);
+         }
+      }   
    }
 
    //default base media path
@@ -286,9 +317,35 @@ int main (int argc, char* argv[]) {
    //
    // read configs and init
    //
-   read_config("/etc/raspigemcam", 1);
+
+   // prefer config file in current working directory
+   // when not found, look in etc (kind of backwards compatibility)
+   char defaultconfig[256];
+   getcwd(defaultconfig, 256);
+   strcat(defaultconfig, "/raspigemcam.cfg");
+   if (access(defaultconfig, F_OK)) {
+      strcpy(defaultconfig, "/etc/raspigemcam.cfg");
+   }
+
+   read_config(defaultconfig, 1);
    if (cfg_stru[c_user_config] != 0)
       read_config(cfg_stru[c_user_config], 0);
+
+
+   if (strlen(cmdbasepath) > 0) {
+      // prepend all relative paths (those that won't start with a '/') with the basepath in de cfg_stru
+      if (cmdbasepath[strlen(cmdbasepath) - 1] != '/') {
+         strcat(cmdbasepath, "/");
+      }
+      adaptPath(c_base_path, cmdbasepath);
+      adaptPath(c_preview_path, cmdbasepath);
+      adaptPath(c_image_path, cmdbasepath);
+      adaptPath(c_lapse_path, cmdbasepath);
+      adaptPath(c_video_path, cmdbasepath);
+      adaptPath(c_status_file, cmdbasepath);
+      adaptPath(c_control_file, cmdbasepath);
+      adaptPath(c_media_path, cmdbasepath);
+   }
 
    createPath(cfg_stru[c_log_file], cfg_stru[c_base_path]);
    if (cfg_stru[c_boxing_path] != NULL) {

@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * \file RaspiGemcam.h
  **/
-#define VERSION "5.9.5" 
+#define VERSION "6.0.0" 
  
 #include <stdio.h>
 #include <stdlib.h>
@@ -201,3 +201,4 @@ void saveUserConfig(char *cfilename);
 void read_config(char *cfilename, int type);
 void checkPipe(int pipe);
 void monitor();
+void adaptPath(int key, char *basepath);
