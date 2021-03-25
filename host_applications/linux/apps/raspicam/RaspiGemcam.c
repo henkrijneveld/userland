@@ -27,6 +27,13 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+ * Changelog Henk Rijneveld
+ *
+ * 2021: Allow for relative paths and different location config files
+ */
+
+
 /**
  * \file RaspiGemcamG.c
  * Command line program to capture a camera video stream and encode it to file.
