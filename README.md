@@ -1,6 +1,7 @@
 Raspberry userland repository with additional raspigemcam. raspigemcam is the proprietary camera driver for gemcam (github.com/henkrijneveld/Gemcam.git)
 
 **Documentation**
+
 The documentatation of the original raspimjpeg can be found here: http://elinux.org/RPi-Cam-Web-Interface
 
 In addition, raspigemcam offers the extra functions:
@@ -11,26 +12,38 @@ In addition, raspigemcam offers the extra functions:
 
 
 **Additional files**
-Directory raspgemcam contains the executable and configuration file.
+
+Directory raspgemcam-bin contains the executable and configuration file.
 
 New files in host_applications/linux/apps/raspicam/:
+
 RaspiGCam.c
+
 RaspiGCmds.c
+
 RaspiGemcam.c
+
 RaspiGemcam.h
+
 RaspiGMotion.c
+
 RaspiGUtils.c
 
+
 **Modified files**
+
 in host_applications/linux/apps/raspicam/:
+
 CMakeLists.txt
 
 **Building**
+
 Clone on a Pi, run ./buildme. Maybe you have to install utilities lik cmake first. "They" say that crosscompiling is possible, I would say: use a pi.
 
 After the build, raspigemcam can be found in /opt/vc/bin on the pi. Copy this file to the raspgemcam-bin directory (after some testing, please).
 
 **Acknowledgements**
+
 raspigemcam is a modified version from raspimjpeg (https://github.com/roberttidey/userland). As raspigemcam will (now or in the future) not be backwards compatible, and only will be used with the HQ cam, and only for still images, a copy instead of a fork is created. To avoid confusion, the name is changed.
 
 **Original Readme from raspberry/userland**
