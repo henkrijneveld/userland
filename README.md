@@ -1,4 +1,4 @@
-Raspberry userland repository with additional raspigemcam. raspigemcam is the proprietary camera driver for gemcam (github.com/henkrijneveld/Gemcam.git)
+Raspberry userland repository with additional raspigemcam. raspigemcam is the proprietary camera driver for Microscope-PiCam (https://github.com/henkrijneveld/Microscope-PiCam.git)
 
 **Documentation**
 
